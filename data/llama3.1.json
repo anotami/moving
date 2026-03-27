@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T21:44:35.989543",
+  "fecha_actualizacion": "2026-03-27T22:21:18.329637",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -34,18 +34,18 @@
     },
     {
       "posicion": 7,
-      "id": "relatedness",
-      "nombre": "Relación"
-    },
-    {
-      "posicion": 8,
       "id": "order",
       "nombre": "Orden"
     },
     {
-      "posicion": 9,
+      "posicion": 8,
       "id": "goal",
       "nombre": "Meta"
+    },
+    {
+      "posicion": 9,
+      "id": "relatedness",
+      "nombre": "Relación"
     },
     {
       "posicion": 10,
@@ -79,12 +79,12 @@
       "etiqueta": "neutro"
     },
     "relatedness": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "order": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "goal": {
       "valor": 0,
@@ -101,28 +101,28 @@
       "etiqueta": "neutro"
     },
     "honor": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "acceptance": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "power": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "freedom": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "relatedness": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "order": {
       "valor": 0,
@@ -145,8 +145,8 @@
     },
     "honor": {
       "actual": "neutro",
-      "deseada": "positivo",
-      "cambio": "mejora"
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
     },
     "acceptance": {
       "actual": "neutro",
@@ -155,8 +155,8 @@
     },
     "mastery": {
       "actual": "neutro",
-      "deseada": "positivo",
-      "cambio": "mejora"
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
     },
     "power": {
       "actual": "neutro",
@@ -165,20 +165,20 @@
     },
     "freedom": {
       "actual": "neutro",
-      "deseada": "negativo",
-      "cambio": "empeora"
-    },
-    "relatedness": {
-      "actual": "negativo",
-      "deseada": "positivo",
-      "cambio": "mejora"
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
     },
     "order": {
-      "actual": "positivo",
+      "actual": "neutro",
       "deseada": "neutro",
-      "cambio": "empeora"
+      "cambio": "sin_cambio"
     },
     "goal": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "relatedness": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
