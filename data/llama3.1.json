@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T21:44:29.288483",
+  "fecha_actualizacion": "2026-03-27T21:44:35.989543",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -101,28 +101,28 @@
       "etiqueta": "neutro"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
       "valor": 0,
@@ -145,8 +145,8 @@
     },
     "honor": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "acceptance": {
       "actual": "neutro",
@@ -155,8 +155,8 @@
     },
     "mastery": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "power": {
       "actual": "neutro",
@@ -165,12 +165,12 @@
     },
     "freedom": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "negativo",
+      "cambio": "empeora"
     },
     "relatedness": {
       "actual": "negativo",
-      "deseada": "neutro",
+      "deseada": "positivo",
       "cambio": "mejora"
     },
     "order": {
