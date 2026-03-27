@@ -1,16 +1,16 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T21:37:52.060900",
+  "fecha_actualizacion": "2026-03-27T21:39:53.212478",
   "orden_importancia": [
     {
       "posicion": 1,
-      "id": "curiosity",
-      "nombre": "Curiosidad"
+      "id": "honor",
+      "nombre": "Honor"
     },
     {
       "posicion": 2,
-      "id": "honor",
-      "nombre": "Honor"
+      "id": "curiosity",
+      "nombre": "Curiosidad"
     },
     {
       "posicion": 3,
@@ -19,38 +19,38 @@
     },
     {
       "posicion": 4,
-      "id": "mastery",
-      "nombre": "Maestría"
-    },
-    {
-      "posicion": 5,
-      "id": "freedom",
-      "nombre": "Libertad"
-    },
-    {
-      "posicion": 6,
       "id": "power",
       "nombre": "Poder"
     },
     {
-      "posicion": 7,
-      "id": "order",
-      "nombre": "Orden"
+      "posicion": 5,
+      "id": "mastery",
+      "nombre": "Maestría"
     },
     {
-      "posicion": 8,
+      "posicion": 6,
+      "id": "freedom",
+      "nombre": "Libertad"
+    },
+    {
+      "posicion": 7,
       "id": "relatedness",
       "nombre": "Relación"
     },
     {
+      "posicion": 8,
+      "id": "order",
+      "nombre": "Orden"
+    },
+    {
       "posicion": 9,
-      "id": "goal",
-      "nombre": "Meta"
+      "id": "status",
+      "nombre": "Estatus"
     },
     {
       "posicion": 10,
-      "id": "status",
-      "nombre": "Estatus"
+      "id": "goal",
+      "nombre": "Meta"
     }
   ],
   "situacion_actual": {
@@ -67,12 +67,12 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "power": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "freedom": {
       "valor": 0,
@@ -125,12 +125,12 @@
       "etiqueta": "neutro"
     },
     "order": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "goal": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "status": {
       "valor": 0,
@@ -138,12 +138,12 @@
     }
   },
   "comparacion": {
-    "curiosity": {
+    "honor": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "honor": {
+    "curiosity": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
@@ -153,37 +153,37 @@
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "mastery": {
-      "actual": "negativo",
+    "power": {
+      "actual": "neutro",
       "deseada": "neutro",
-      "cambio": "mejora"
+      "cambio": "sin_cambio"
+    },
+    "mastery": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
     },
     "freedom": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "power": {
-      "actual": "negativo",
-      "deseada": "neutro",
-      "cambio": "mejora"
-    },
-    "order": {
-      "actual": "neutro",
-      "deseada": "negativo",
-      "cambio": "empeora"
-    },
     "relatedness": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "goal": {
+    "order": {
       "actual": "neutro",
-      "deseada": "positivo",
-      "cambio": "mejora"
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
     },
     "status": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "goal": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
