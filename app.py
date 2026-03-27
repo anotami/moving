@@ -1,5 +1,10 @@
-import streamlit as st
+import base64
+import datetime
+import json
+
 import plotly.graph_objects as go
+import requests
+import streamlit as st
 
 st.set_page_config(
     page_title="Moving Motivators | CHAMPFROGS",
@@ -7,7 +12,20 @@ st.set_page_config(
     layout="wide",
 )
 
-# ── Datos ────────────────────────────────────────────────────────────────────
+# ── Configuración GitHub ──────────────────────────────────────────────────────
+
+GITHUB_REPO = "anotami/moving"
+GITHUB_BRANCH = "claude/streamlit-moving-motivators-AYj9o"
+
+
+def get_github_token():
+    try:
+        return st.secrets["GITHUB_TOKEN"]
+    except Exception:
+        return ""
+
+
+# ── Datos ─────────────────────────────────────────────────────────────────────
 
 MOTIVATORS = [
     {
@@ -101,11 +119,6 @@ st.markdown(
 <style>
     .main { padding-top: 1rem; }
 
-    .phase-indicator {
-        display: flex;
-        gap: 8px;
-        margin-bottom: 16px;
-    }
     .phase-step {
         flex: 1;
         padding: 10px;
@@ -166,7 +179,6 @@ st.markdown(
         color: white;
     }
     .card-rank {
-        background: rgba(0,0,0,0.15);
         padding: 3px 6px;
         font-size: 10px;
         text-align: center;
@@ -194,25 +206,34 @@ st.markdown(
         font-size: 13px;
         font-weight: 500;
     }
-    .dot {
-        width: 14px; height: 14px;
-        border-radius: 50%;
-        display: inline-block;
-    }
+    .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
 
-    .summary-card {
-        border-radius: 10px;
-        padding: 14px;
-        margin-bottom: 8px;
-    }
+    .summary-card { border-radius: 10px; padding: 14px; margin-bottom: 8px; }
     .sum-improve { background: #e8f5e9; border-left: 4px solid #27AE60; }
     .sum-worsen  { background: #fdecea; border-left: 4px solid #E74C3C; }
     .sum-same    { background: #eceff1; border-left: 4px solid #7F8C8D; }
 
-    div[data-testid="stButton"] > button {
-        border-radius: 6px;
-        font-size: 13px;
+    .welcome-box {
+        max-width: 520px;
+        margin: 60px auto;
+        background: white;
+        border-radius: 16px;
+        padding: 40px 36px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+        text-align: center;
     }
+    .save-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+    .save-ok  { background:#e8f5e9; color:#2e7d32; }
+    .save-err { background:#fdecea; color:#c62828; }
+    .save-na  { background:#f5f5f5; color:#888; }
 </style>
 """,
     unsafe_allow_html=True,
@@ -222,21 +243,109 @@ st.markdown(
 
 
 def init_state():
-    if "order" not in st.session_state:
-        st.session_state.order = [m["id"] for m in MOTIVATORS]
-    if "current" not in st.session_state:
-        st.session_state.current = {m["id"]: 0 for m in MOTIVATORS}
-    if "desired" not in st.session_state:
-        st.session_state.desired = {m["id"]: 0 for m in MOTIVATORS}
-    if "phase" not in st.session_state:
-        st.session_state.phase = 1
+    defaults = {
+        "phase": 0,
+        "user_name": "",
+        "order": [m["id"] for m in MOTIVATORS],
+        "current": {m["id"]: 0 for m in MOTIVATORS},
+        "desired": {m["id"]: 0 for m in MOTIVATORS},
+        "save_status": None,   # None | "ok" | "error" | "no_token"
+        "save_message": "",
+    }
+    for k, v in defaults.items():
+        if k not in st.session_state:
+            st.session_state[k] = v
+
+
+# ── GitHub: guardar datos ─────────────────────────────────────────────────────
+
+
+def save_to_github():
+    """Serializa el estado actual y lo guarda/actualiza en GitHub."""
+    token = get_github_token()
+    if not token:
+        st.session_state.save_status = "no_token"
+        st.session_state.save_message = "Sin token GitHub (configura GITHUB_TOKEN en secrets)"
+        return
+
+    name = st.session_state.user_name
+    order = st.session_state.order
+    current = st.session_state.current
+    desired = st.session_state.desired
+
+    data = {
+        "nombre": name,
+        "fecha_actualizacion": datetime.datetime.now().isoformat(),
+        "orden_importancia": [
+            {"posicion": i + 1, "id": mid, "nombre": MOTIVATOR_MAP[mid]["name"]}
+            for i, mid in enumerate(order)
+        ],
+        "situacion_actual": {
+            mid: {"valor": v, "etiqueta": _pos_label(v)} for mid, v in current.items()
+        },
+        "situacion_deseada": {
+            mid: {"valor": v, "etiqueta": _pos_label(v)} for mid, v in desired.items()
+        },
+        "comparacion": {
+            mid: {
+                "actual": _pos_label(current[mid]),
+                "deseada": _pos_label(desired[mid]),
+                "cambio": _change_label(current[mid], desired[mid]),
+            }
+            for mid in order
+        },
+    }
+
+    content_bytes = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
+    encoded = base64.b64encode(content_bytes).decode()
+
+    safe_name = name.lower().replace(" ", "_")
+    filepath = f"data/{safe_name}.json"
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{filepath}"
+    headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+
+    # Obtener SHA si el archivo ya existe
+    sha = None
+    r = requests.get(url, headers=headers, params={"ref": GITHUB_BRANCH})
+    if r.status_code == 200:
+        sha = r.json().get("sha")
+
+    payload = {
+        "message": f"Motivadores: {name} ({datetime.datetime.now().strftime('%Y-%m-%d %H:%M')})",
+        "content": encoded,
+        "branch": GITHUB_BRANCH,
+    }
+    if sha:
+        payload["sha"] = sha
+
+    r = requests.put(url, headers=headers, json=payload)
+    if r.status_code in (200, 201):
+        st.session_state.save_status = "ok"
+        st.session_state.save_message = f"Guardado en GitHub → data/{safe_name}.json"
+    else:
+        st.session_state.save_status = "error"
+        st.session_state.save_message = f"Error GitHub {r.status_code}: {r.json().get('message', '')}"
+
+
+def _pos_label(v):
+    return {1: "positivo", 0: "neutro", -1: "negativo"}[v]
+
+
+def _change_label(c, d):
+    if d > c:
+        return "mejora"
+    if d < c:
+        return "empeora"
+    return "sin_cambio"
 
 
 # ── Callbacks ─────────────────────────────────────────────────────────────────
 
 
 def move_card(idx, direction):
-    """Swap card at idx with neighbor (direction: -1=left, +1=right)."""
     order = list(st.session_state.order)
     target = idx + direction
     if 0 <= target < len(order):
@@ -250,12 +359,14 @@ def change_position(phase_key, mid, delta):
     st.session_state[phase_key] = positions
 
 
-def set_phase(n):
+def set_phase(n, do_save=False):
     st.session_state.phase = n
+    if do_save:
+        save_to_github()
 
 
 def reset_all():
-    for key in ["order", "current", "desired", "phase"]:
+    for key in ["phase", "user_name", "order", "current", "desired", "save_status", "save_message"]:
         st.session_state.pop(key, None)
 
 
@@ -268,15 +379,32 @@ POS_CONFIG = {
 }
 
 
+def render_save_badge():
+    status = st.session_state.save_status
+    if status == "ok":
+        st.markdown(
+            f'<div class="save-badge save-ok">✅ {st.session_state.save_message}</div>',
+            unsafe_allow_html=True,
+        )
+    elif status == "error":
+        st.markdown(
+            f'<div class="save-badge save-err">❌ {st.session_state.save_message}</div>',
+            unsafe_allow_html=True,
+        )
+    elif status == "no_token":
+        st.markdown(
+            f'<div class="save-badge save-na">⚠️ {st.session_state.save_message}</div>',
+            unsafe_allow_html=True,
+        )
+
+
 def render_card(m, rank=None, position=None, phase_key=None):
-    """Render a motivator card inside a Streamlit column."""
     rank_html = (
-        f'<div class="card-rank" style="background:{m["color"]}; color:{m["text_color"]}; opacity:0.8;">'
+        f'<div class="card-rank" style="background:{m["color"]}; color:{m["text_color"]}; opacity:0.75;">'
         f"#{rank}</div>"
         if rank is not None
         else ""
     )
-
     footer_html = ""
     if position is not None:
         cfg = POS_CONFIG[position]
@@ -298,57 +426,27 @@ def render_card(m, rank=None, position=None, phase_key=None):
         unsafe_allow_html=True,
     )
 
-    # Botones de reorden (fase 1)
     if phase_key is None and rank is not None:
         idx = rank - 1
         c1, c2 = st.columns(2)
         with c1:
-            st.button(
-                "◀",
-                key=f"left_{idx}",
-                on_click=move_card,
-                args=(idx, -1),
-                disabled=idx == 0,
-                use_container_width=True,
-                help="Más importante",
-            )
+            st.button("◀", key=f"left_{idx}", on_click=move_card, args=(idx, -1),
+                      disabled=idx == 0, use_container_width=True, help="Más importante")
         with c2:
-            st.button(
-                "▶",
-                key=f"right_{idx}",
-                on_click=move_card,
-                args=(idx, 1),
-                disabled=idx == len(st.session_state.order) - 1,
-                use_container_width=True,
-                help="Menos importante",
-            )
+            st.button("▶", key=f"right_{idx}", on_click=move_card, args=(idx, 1),
+                      disabled=idx == len(st.session_state.order) - 1,
+                      use_container_width=True, help="Menos importante")
 
-    # Botones de posición (fases 2 y 3)
     if phase_key is not None:
         c1, c2 = st.columns(2)
         with c1:
-            st.button(
-                "▲",
-                key=f"{phase_key}_up_{m['id']}",
-                on_click=change_position,
-                args=(phase_key, m["id"], 1),
-                disabled=position >= 1,
-                use_container_width=True,
-                help="Impacto positivo",
-            )
+            st.button("▲", key=f"{phase_key}_up_{m['id']}", on_click=change_position,
+                      args=(phase_key, m["id"], 1), disabled=position >= 1,
+                      use_container_width=True, help="Impacto positivo")
         with c2:
-            st.button(
-                "▼",
-                key=f"{phase_key}_dn_{m['id']}",
-                on_click=change_position,
-                args=(phase_key, m["id"], -1),
-                disabled=position <= -1,
-                use_container_width=True,
-                help="Impacto negativo",
-            )
-
-
-# ── Indicador de progreso ─────────────────────────────────────────────────────
+            st.button("▼", key=f"{phase_key}_dn_{m['id']}", on_click=change_position,
+                      args=(phase_key, m["id"], -1), disabled=position <= -1,
+                      use_container_width=True, help="Impacto negativo")
 
 
 def render_progress():
@@ -361,27 +459,48 @@ def render_progress():
     cols = st.columns(3)
     for i, (col, label) in enumerate(zip(cols, labels)):
         step = i + 1
-        if step == phase:
-            css = "active"
-        elif step < phase:
-            css = "done"
-        else:
-            css = ""
+        css = "active" if step == phase else "done" if step < phase else ""
         with col:
-            st.markdown(
-                f'<div class="phase-step {css}">{label}</div>',
-                unsafe_allow_html=True,
-            )
+            st.markdown(f'<div class="phase-step {css}">{label}</div>', unsafe_allow_html=True)
     st.markdown("")
 
 
 # ── Fases ─────────────────────────────────────────────────────────────────────
 
 
-def render_phase1():
-    st.subheader("Ordenar motivadores por importancia")
+def render_phase0():
+    """Pantalla de bienvenida y captura de nombre."""
     st.markdown(
-        "Usa los botones **◀ ▶** para mover cada tarjeta. "
+        """
+<div class="welcome-box">
+  <div style="font-size:48px; margin-bottom:8px;">🎯</div>
+  <h2 style="margin:0 0 8px 0;">Moving Motivators</h2>
+  <p style="color:#666; margin-bottom:24px;">
+    Descubre qué te motiva, evalúa tu situación actual<br>y visualiza el impacto de un cambio.
+  </p>
+</div>""",
+        unsafe_allow_html=True,
+    )
+
+    _, center, _ = st.columns([1, 2, 1])
+    with center:
+        name = st.text_input(
+            "¿Cuál es tu nombre?",
+            value=st.session_state.user_name,
+            placeholder="Escribe tu nombre aquí...",
+        )
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Comenzar →", type="primary", use_container_width=True,
+                     disabled=not name.strip()):
+            st.session_state.user_name = name.strip()
+            st.session_state.phase = 1
+            st.rerun()
+
+
+def render_phase1():
+    st.subheader(f"Hola, {st.session_state.user_name} 👋  —  Ordena por importancia")
+    st.markdown(
+        "Usa **◀ ▶** para mover cada tarjeta. "
         "El más importante va a la **izquierda**, el menos importante a la **derecha**."
     )
 
@@ -394,13 +513,9 @@ def render_phase1():
     st.markdown("---")
     _, right = st.columns([3, 1])
     with right:
-        st.button(
-            "Siguiente: Situación Actual →",
-            type="primary",
-            on_click=set_phase,
-            args=(2,),
-            use_container_width=True,
-        )
+        st.button("Siguiente: Situación Actual →", type="primary",
+                  on_click=set_phase, args=(2, True), use_container_width=True)
+    render_save_badge()
 
 
 def render_phase2():
@@ -424,93 +539,49 @@ def render_phase2():
     with left:
         st.button("← Paso 1", on_click=set_phase, args=(1,), use_container_width=True)
     with right:
-        st.button(
-            "Siguiente: Situación Deseada →",
-            type="primary",
-            on_click=set_phase,
-            args=(3,),
-            use_container_width=True,
-        )
+        st.button("Siguiente: Situación Deseada →", type="primary",
+                  on_click=set_phase, args=(3, True), use_container_width=True)
+    render_save_badge()
 
 
 def build_comparison_chart(order, current, desired):
     names = [MOTIVATOR_MAP[mid]["name"] for mid in order]
     curr_vals = [current[mid] for mid in order]
     des_vals = [desired[mid] for mid in order]
-
     label_map = {1: "▲ Positivo", 0: "● Neutro", -1: "▼ Negativo"}
 
     fig = go.Figure()
 
-    # Línea situación actual
-    fig.add_trace(
-        go.Scatter(
-            x=names,
-            y=curr_vals,
-            mode="lines+markers",
-            name="Situación Actual",
-            line=dict(color="#3498DB", width=3),
-            marker=dict(size=12, color="#3498DB", symbol="circle"),
-            hovertemplate="<b>%{x}</b><br>Actual: %{customdata}<extra></extra>",
-            customdata=[label_map[v] for v in curr_vals],
-        )
-    )
+    for i, (name, c, d) in enumerate(zip(names, curr_vals, des_vals)):
+        if d != c:
+            color = "rgba(39,174,96,0.15)" if d > c else "rgba(231,76,60,0.15)"
+            fig.add_shape(type="rect", x0=i - 0.4, x1=i + 0.4, y0=c, y1=d,
+                          fillcolor=color, line_width=0)
 
-    # Línea situación deseada
-    fig.add_trace(
-        go.Scatter(
-            x=names,
-            y=des_vals,
-            mode="lines+markers",
-            name="Situación Deseada",
-            line=dict(color="#E67E22", width=3, dash="dash"),
-            marker=dict(size=12, color="#E67E22", symbol="diamond"),
-            hovertemplate="<b>%{x}</b><br>Deseada: %{customdata}<extra></extra>",
-            customdata=[label_map[v] for v in des_vals],
-        )
-    )
-
-    # Relleno de área entre las líneas
-    diffs = [des_vals[i] - curr_vals[i] for i in range(len(order))]
-    for i, (name, diff) in enumerate(zip(names, diffs)):
-        if diff != 0:
-            color = "rgba(39,174,96,0.15)" if diff > 0 else "rgba(231,76,60,0.15)"
-            fig.add_shape(
-                type="rect",
-                x0=i - 0.4,
-                x1=i + 0.4,
-                y0=curr_vals[i],
-                y1=des_vals[i],
-                fillcolor=color,
-                line_width=0,
-            )
+    fig.add_trace(go.Scatter(
+        x=names, y=curr_vals, mode="lines+markers", name="Situación Actual",
+        line=dict(color="#3498DB", width=3), marker=dict(size=12, color="#3498DB"),
+        hovertemplate="<b>%{x}</b><br>Actual: %{customdata}<extra></extra>",
+        customdata=[label_map[v] for v in curr_vals],
+    ))
+    fig.add_trace(go.Scatter(
+        x=names, y=des_vals, mode="lines+markers", name="Situación Deseada",
+        line=dict(color="#E67E22", width=3, dash="dash"),
+        marker=dict(size=12, color="#E67E22", symbol="diamond"),
+        hovertemplate="<b>%{x}</b><br>Deseada: %{customdata}<extra></extra>",
+        customdata=[label_map[v] for v in des_vals],
+    ))
 
     fig.update_layout(
-        yaxis=dict(
-            tickvals=[-1, 0, 1],
-            ticktext=["▼ Negativo", "● Neutro", "▲ Positivo"],
-            range=[-1.6, 1.6],
-            gridcolor="#ececec",
-        ),
-        xaxis=dict(
-            title="Motivadores (de más → menos importante)",
-            gridcolor="#ececec",
-        ),
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=1.02,
-            xanchor="right",
-            x=1,
-        ),
-        height=380,
-        plot_bgcolor="white",
-        paper_bgcolor="white",
-        margin=dict(t=40, b=40, l=10, r=10),
-        hovermode="x unified",
+        yaxis=dict(tickvals=[-1, 0, 1],
+                   ticktext=["▼ Negativo", "● Neutro", "▲ Positivo"],
+                   range=[-1.6, 1.6], gridcolor="#ececec"),
+        xaxis=dict(title="Motivadores (de más → menos importante)", gridcolor="#ececec"),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+        height=380, plot_bgcolor="white", paper_bgcolor="white",
+        margin=dict(t=40, b=40, l=10, r=10), hovermode="x unified",
     )
     fig.add_hline(y=0, line_dash="dot", line_color="#aaa", opacity=0.6)
-
     return fig
 
 
@@ -525,7 +596,6 @@ def render_phase3():
     current = st.session_state.current
     desired = st.session_state.desired
 
-    # Tarjetas con posición deseada
     cols = st.columns(len(order))
     for i, mid in enumerate(order):
         with cols[i]:
@@ -533,16 +603,13 @@ def render_phase3():
 
     st.markdown("---")
     st.subheader("Comparación: Actual vs. Deseada")
+    st.plotly_chart(build_comparison_chart(order, current, desired), use_container_width=True)
 
-    fig = build_comparison_chart(order, current, desired)
-    st.plotly_chart(fig, use_container_width=True)
-
-    # Leyenda de diferencias
     st.markdown(
         """
 <div class="legend-box">
-  <div class="legend-item"><span class="dot" style="background:#27AE60"></span> Mejora con la situación deseada</div>
-  <div class="legend-item"><span class="dot" style="background:#E74C3C"></span> Empeora con la situación deseada</div>
+  <div class="legend-item"><span class="dot" style="background:#27AE60"></span> Mejora</div>
+  <div class="legend-item"><span class="dot" style="background:#E74C3C"></span> Empeora</div>
   <div class="legend-item"><span class="dot" style="background:#7F8C8D"></span> Sin cambio</div>
   <div class="legend-item" style="color:#3498DB; font-weight:700;">─── Situación Actual</div>
   <div class="legend-item" style="color:#E67E22; font-weight:700;">- - Situación Deseada</div>
@@ -550,53 +617,29 @@ def render_phase3():
         unsafe_allow_html=True,
     )
 
-    # Resumen
-    st.subheader("Resumen del impacto")
-
     label_map = {1: "▲ Positivo", 0: "● Neutro", -1: "▼ Negativo"}
+    improved = [(MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
+                for mid in order if desired[mid] > current[mid]]
+    worsened = [(MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
+                for mid in order if desired[mid] < current[mid]]
+    same = [(MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
+            for mid in order if desired[mid] == current[mid]]
 
-    improved = [
-        (MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
-        for mid in order
-        if desired[mid] > current[mid]
-    ]
-    worsened = [
-        (MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
-        for mid in order
-        if desired[mid] < current[mid]
-    ]
-    same = [
-        (MOTIVATOR_MAP[mid]["name"], current[mid], desired[mid])
-        for mid in order
-        if desired[mid] == current[mid]
-    ]
-
+    st.subheader("Resumen del impacto")
     c1, c2, c3 = st.columns(3)
-
     with c1:
-        st.markdown(
-            f'<div class="summary-card sum-improve">'
-            f"<strong>✅ Mejoran ({len(improved)})</strong></div>",
-            unsafe_allow_html=True,
-        )
+        st.markdown(f'<div class="summary-card sum-improve"><strong>✅ Mejoran ({len(improved)})</strong></div>',
+                    unsafe_allow_html=True)
         for name, c, d in improved:
             st.markdown(f"&nbsp;&nbsp;**{name}**: {label_map[c]} → {label_map[d]}")
-
     with c2:
-        st.markdown(
-            f'<div class="summary-card sum-worsen">'
-            f"<strong>❌ Empeoran ({len(worsened)})</strong></div>",
-            unsafe_allow_html=True,
-        )
+        st.markdown(f'<div class="summary-card sum-worsen"><strong>❌ Empeoran ({len(worsened)})</strong></div>',
+                    unsafe_allow_html=True)
         for name, c, d in worsened:
             st.markdown(f"&nbsp;&nbsp;**{name}**: {label_map[c]} → {label_map[d]}")
-
     with c3:
-        st.markdown(
-            f'<div class="summary-card sum-same">'
-            f"<strong>➡️ Sin cambio ({len(same)})</strong></div>",
-            unsafe_allow_html=True,
-        )
+        st.markdown(f'<div class="summary-card sum-same"><strong>➡️ Sin cambio ({len(same)})</strong></div>',
+                    unsafe_allow_html=True)
         for name, c, d in same:
             st.markdown(f"&nbsp;&nbsp;**{name}**: {label_map[c]}")
 
@@ -605,11 +648,14 @@ def render_phase3():
     with left:
         st.button("← Paso 2", on_click=set_phase, args=(2,), use_container_width=True)
     with right:
-        st.button(
-            "🔄 Reiniciar",
-            on_click=reset_all,
-            use_container_width=True,
-        )
+        st.button("💾 Guardar y finalizar", type="primary",
+                  on_click=set_phase, args=(3, True), use_container_width=True)
+
+    render_save_badge()
+
+    _, col_reset, _ = st.columns([2, 1, 2])
+    with col_reset:
+        st.button("🔄 Nueva evaluación", on_click=reset_all, use_container_width=True)
 
 
 # ── Barra lateral ─────────────────────────────────────────────────────────────
@@ -618,6 +664,8 @@ def render_phase3():
 def render_sidebar():
     with st.sidebar:
         st.markdown("## 🎯 Moving Motivators")
+        if st.session_state.user_name:
+            st.markdown(f"👤 **{st.session_state.user_name}**")
         st.markdown(
             "Herramienta basada en el modelo **CHAMPFROGS** de [Management 3.0](https://management30.com/)"
         )
@@ -638,10 +686,14 @@ def render_sidebar():
         st.markdown("---")
         st.markdown("### Cómo usar")
         st.markdown(
-            "1. **Paso 1**: Ordena las tarjetas de más a menos importante usando ◀ ▶\n"
-            "2. **Paso 2**: Indica si tu situación actual impacta positiva o negativamente cada motivador\n"
-            "3. **Paso 3**: Haz lo mismo para tu situación deseada y compara"
+            "1. **Paso 1**: Ordena de más a menos importante\n"
+            "2. **Paso 2**: Evalúa impacto en situación actual\n"
+            "3. **Paso 3**: Evalúa situación deseada y compara"
         )
+        st.markdown("---")
+        token_ok = bool(get_github_token())
+        status_icon = "🟢" if token_ok else "🔴"
+        st.markdown(f"{status_icon} GitHub: {'conectado' if token_ok else 'sin token'}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
@@ -649,17 +701,17 @@ def render_sidebar():
 init_state()
 render_sidebar()
 
-st.markdown("# 🎯 Moving Motivators")
-st.markdown(
-    "Descubre qué te motiva, evalúa tu situación actual y visualiza el impacto de un cambio."
-)
-st.markdown("")
-
-render_progress()
-st.markdown("---")
+if st.session_state.phase > 0:
+    st.markdown("# 🎯 Moving Motivators")
+    st.markdown("Descubre qué te motiva, evalúa tu situación actual y visualiza el impacto de un cambio.")
+    st.markdown("")
+    render_progress()
+    st.markdown("---")
 
 phase = st.session_state.phase
-if phase == 1:
+if phase == 0:
+    render_phase0()
+elif phase == 1:
     render_phase1()
 elif phase == 2:
     render_phase2()
