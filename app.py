@@ -5,6 +5,7 @@ import json
 import plotly.graph_objects as go
 import requests
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
 
 st.set_page_config(
     page_title="Moving Motivators | CHAMPFROGS",
@@ -25,204 +26,216 @@ def get_github_token():
         return ""
 
 
+# ── Detección de dispositivo ──────────────────────────────────────────────────
+
+def get_screen_width():
+    """Devuelve el ancho de pantalla del navegador (None en el primer render)."""
+    return streamlit_js_eval(js_expressions="window.innerWidth", key="screen_w")
+
+
+def is_mobile():
+    w = st.session_state.get("screen_width")
+    return w is not None and w < 768
+
+
 # ── Datos ─────────────────────────────────────────────────────────────────────
 
 MOTIVATORS = [
     {
-        "id": "curiosity",
-        "letter": "C",
-        "name": "Curiosidad",
+        "id": "curiosity", "letter": "C", "name": "Curiosidad",
         "description": "Tengo muchas cosas para investigar y pensar",
-        "color": "#F5A623",
-        "text_color": "#000000",
+        "color": "#F5A623", "text_color": "#000000",
     },
     {
-        "id": "honor",
-        "letter": "H",
-        "name": "Honor",
+        "id": "honor", "letter": "H", "name": "Honor",
         "description": "Me siento orgulloso/a de que mis valores personales se reflejen en cómo trabajo",
-        "color": "#1ABC9C",
-        "text_color": "#ffffff",
+        "color": "#1ABC9C", "text_color": "#ffffff",
     },
     {
-        "id": "acceptance",
-        "letter": "A",
-        "name": "Aceptación",
+        "id": "acceptance", "letter": "A", "name": "Aceptación",
         "description": "Las personas a mi alrededor aprueban lo que hago y quién soy",
-        "color": "#8E44AD",
-        "text_color": "#ffffff",
+        "color": "#8E44AD", "text_color": "#ffffff",
     },
     {
-        "id": "mastery",
-        "letter": "M",
-        "name": "Maestría",
+        "id": "mastery", "letter": "M", "name": "Maestría",
         "description": "Mi trabajo desafía mi competencia pero aún está dentro de mis habilidades",
-        "color": "#E91E8C",
-        "text_color": "#ffffff",
+        "color": "#E91E8C", "text_color": "#ffffff",
     },
     {
-        "id": "power",
-        "letter": "P",
-        "name": "Poder",
+        "id": "power", "letter": "P", "name": "Poder",
         "description": "Hay suficiente espacio para influir en lo que sucede a mi alrededor",
-        "color": "#F1C40F",
-        "text_color": "#000000",
+        "color": "#F1C40F", "text_color": "#000000",
     },
     {
-        "id": "freedom",
-        "letter": "F",
-        "name": "Libertad",
+        "id": "freedom", "letter": "F", "name": "Libertad",
         "description": "Soy independiente de otros con mi trabajo y mis responsabilidades",
-        "color": "#E74C3C",
-        "text_color": "#ffffff",
+        "color": "#E74C3C", "text_color": "#ffffff",
     },
     {
-        "id": "relatedness",
-        "letter": "R",
-        "name": "Relación",
+        "id": "relatedness", "letter": "R", "name": "Relación",
         "description": "Tengo buenos contactos sociales con las personas en mi trabajo",
-        "color": "#27AE60",
-        "text_color": "#ffffff",
+        "color": "#27AE60", "text_color": "#ffffff",
     },
     {
-        "id": "order",
-        "letter": "O",
-        "name": "Orden",
+        "id": "order", "letter": "O", "name": "Orden",
         "description": "Hay suficientes reglas y políticas para un entorno estable",
-        "color": "#FF7675",
-        "text_color": "#ffffff",
+        "color": "#FF7675", "text_color": "#ffffff",
     },
     {
-        "id": "goal",
-        "letter": "G",
-        "name": "Meta",
+        "id": "goal", "letter": "G", "name": "Meta",
         "description": "Mi propósito en la vida se refleja en el trabajo que hago",
-        "color": "#2C3E50",
-        "text_color": "#ffffff",
+        "color": "#2C3E50", "text_color": "#ffffff",
     },
     {
-        "id": "status",
-        "letter": "S",
-        "name": "Estatus",
+        "id": "status", "letter": "S", "name": "Estatus",
         "description": "Mi posición es buena y reconocida por las personas que trabajan conmigo",
-        "color": "#FD79A8",
-        "text_color": "#000000",
+        "color": "#FD79A8", "text_color": "#000000",
     },
 ]
 
 MOTIVATOR_MAP = {m["id"]: m for m in MOTIVATORS}
 
-# ── CSS personalizado ─────────────────────────────────────────────────────────
+CHANGE_EXAMPLES = [
+    "Cambiar de empresa",
+    "Emprender mi propio negocio",
+    "Asumir un rol de liderazgo",
+    "Trabajar de forma remota",
+    "Cambiar de área o especialidad",
+    "Mudarse a otra ciudad o país",
+    "Iniciar un posgrado o certificación",
+    "Pasar a trabajo freelance",
+    "Pedir un aumento o promoción",
+    "Cambiar de industria",
+    "Reducir mi jornada laboral",
+    "Unirme a una startup",
+]
+
+# ── CSS ───────────────────────────────────────────────────────────────────────
 
 st.markdown(
     """
 <style>
     .main { padding-top: 1rem; }
 
+    /* ── Progreso ── */
     .phase-step {
-        flex: 1;
-        padding: 10px;
-        border-radius: 8px;
-        text-align: center;
-        font-weight: 600;
-        font-size: 13px;
-        background: #f0f0f0;
-        color: #888;
-        border: 2px solid transparent;
+        flex: 1; padding: 10px; border-radius: 8px; text-align: center;
+        font-weight: 600; font-size: 13px; background: #f0f0f0;
+        color: #888; border: 2px solid transparent;
     }
-    .phase-step.active {
-        background: #1a73e8;
-        color: white;
-        border-color: #1a73e8;
-    }
-    .phase-step.done {
-        background: #e8f5e9;
-        color: #2e7d32;
-        border-color: #81c784;
-    }
+    .phase-step.active { background: #1a73e8; color: white; border-color: #1a73e8; }
+    .phase-step.done   { background: #e8f5e9; color: #2e7d32; border-color: #81c784; }
 
+    /* ── Tarjetas ── */
     .card-wrapper {
-        border-radius: 10px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-        margin-bottom: 6px;
+        border-radius: 10px; overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.12); margin-bottom: 6px;
     }
     .card-header {
-        padding: 8px 6px;
-        text-align: center;
-        font-weight: 700;
-        font-size: 12px;
-        line-height: 1.2;
-        min-height: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        padding: 8px 6px; text-align: center; font-weight: 700;
+        font-size: 12px; line-height: 1.2; min-height: 44px;
+        display: flex; align-items: center; justify-content: center;
     }
     .card-body {
-        background: #fafafa;
-        padding: 8px 6px;
-        font-size: 10px;
-        color: #444;
-        text-align: center;
-        min-height: 54px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-left: 1px solid #e0e0e0;
-        border-right: 1px solid #e0e0e0;
+        background: #fafafa; padding: 8px 6px; font-size: 10px; color: #444;
+        text-align: center; min-height: 54px;
+        display: flex; align-items: center; justify-content: center;
+        border-left: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0;
     }
     .card-footer {
-        padding: 5px 4px;
-        text-align: center;
-        font-weight: 700;
-        font-size: 12px;
-        color: white;
+        padding: 5px 4px; text-align: center;
+        font-weight: 700; font-size: 12px; color: white;
     }
-    .card-rank {
-        padding: 3px 6px;
-        font-size: 10px;
-        text-align: center;
-        font-weight: 700;
-    }
+    .card-rank { padding: 3px 6px; font-size: 10px; text-align: center; font-weight: 700; }
 
     .pos-positive { background-color: #27AE60; }
     .pos-neutral   { background-color: #7F8C8D; }
     .pos-negative  { background-color: #E74C3C; }
 
-    .legend-box {
-        display: flex;
-        gap: 16px;
-        align-items: center;
-        padding: 10px 16px;
-        background: #f8f9fa;
-        border-radius: 8px;
-        margin-bottom: 12px;
-        flex-wrap: wrap;
+    /* ── Scroll horizontal de tarjetas en escritorio y móvil ── */
+    .cards-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
     }
-    .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 500;
-    }
-    .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
 
+    /* ── Ejemplo chips ── */
+    .example-chip {
+        display: inline-block; padding: 5px 12px; margin: 4px;
+        border-radius: 20px; background: #e8f4fd; color: #1a73e8;
+        font-size: 12px; font-weight: 500; cursor: pointer;
+        border: 1px solid #90caf9;
+    }
+    .example-chip:hover { background: #1a73e8; color: white; }
+
+    /* ── Resumen ── */
+    .legend-box {
+        display: flex; gap: 16px; align-items: center;
+        padding: 10px 16px; background: #f8f9fa; border-radius: 8px;
+        margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; }
+    .dot { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
     .summary-card { border-radius: 10px; padding: 14px; margin-bottom: 8px; }
     .sum-improve { background: #e8f5e9; border-left: 4px solid #27AE60; }
     .sum-worsen  { background: #fdecea; border-left: 4px solid #E74C3C; }
     .sum-same    { background: #eceff1; border-left: 4px solid #7F8C8D; }
 
+    /* ── Bienvenida ── */
     .welcome-box {
-        max-width: 520px;
-        margin: 60px auto;
-        background: white;
-        border-radius: 16px;
-        padding: 40px 36px;
-        box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-        text-align: center;
+        max-width: 520px; margin: 40px auto; background: white;
+        border-radius: 16px; padding: 40px 36px;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.10); text-align: center;
     }
 
+    /* ── Cambio box ── */
+    .change-box {
+        background: #f0f4ff; border-left: 4px solid #1a73e8;
+        border-radius: 8px; padding: 14px 18px; margin-bottom: 16px;
+        font-size: 15px; color: #1a237e;
+    }
+
+    /* ════════════════════════════════
+       RESPONSIVE MÓVIL
+    ════════════════════════════════ */
+    @media (max-width: 768px) {
+        /* Márgenes reducidos */
+        .main .block-container {
+            padding-left: 0.4rem !important;
+            padding-right: 0.4rem !important;
+        }
+
+        /* Tarjetas: scroll horizontal */
+        [data-testid="stHorizontalBlock"] {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch;
+            flex-wrap: nowrap !important;
+            gap: 4px !important;
+        }
+        [data-testid="stHorizontalBlock"] > [data-testid="column"] {
+            min-width: 88px !important;
+            flex: 0 0 88px !important;
+        }
+
+        /* Texto de tarjetas más pequeño */
+        .card-header { font-size: 9px !important; min-height: 34px !important; padding: 4px !important; }
+        .card-body   { font-size: 8px  !important; min-height: 38px !important; padding: 4px !important; }
+        .card-footer { font-size: 9px  !important; padding: 3px  !important; }
+        .card-rank   { font-size: 8px  !important; }
+
+        /* Botones más compactos */
+        div[data-testid="stButton"] > button {
+            font-size: 11px !important;
+            padding: 2px 4px !important;
+            min-height: 26px !important;
+        }
+
+        /* Indicador de pasos */
+        .phase-step { font-size: 9px !important; padding: 6px 2px !important; }
+
+        /* Bienvenida */
+        .welcome-box { margin: 16px auto; padding: 20px 12px; }
+    }
 </style>
 """,
     unsafe_allow_html=True,
@@ -238,17 +251,18 @@ def init_state():
         "order": [m["id"] for m in MOTIVATORS],
         "current": {m["id"]: 0 for m in MOTIVATORS},
         "desired": {m["id"]: 0 for m in MOTIVATORS},
+        "change_input": "",
+        "screen_width": None,
     }
     for k, v in defaults.items():
         if k not in st.session_state:
             st.session_state[k] = v
 
 
-# ── GitHub: guardar datos ─────────────────────────────────────────────────────
+# ── GitHub ────────────────────────────────────────────────────────────────────
 
 
 def save_to_github():
-    """Serializa el estado actual y lo guarda/actualiza en GitHub."""
     token = get_github_token()
     if not token:
         return
@@ -257,6 +271,7 @@ def save_to_github():
     order = st.session_state.order
     current = st.session_state.current
     desired = st.session_state.desired
+    change_desc = st.session_state.get("change_input", "")
 
     data = {
         "nombre": name,
@@ -265,6 +280,7 @@ def save_to_github():
             {"posicion": i + 1, "id": mid, "nombre": MOTIVATOR_MAP[mid]["name"]}
             for i, mid in enumerate(order)
         ],
+        "cambio_evaluado": change_desc,
         "situacion_actual": {
             mid: {"valor": v, "etiqueta": _pos_label(v)} for mid, v in current.items()
         },
@@ -283,7 +299,6 @@ def save_to_github():
 
     content_bytes = json.dumps(data, ensure_ascii=False, indent=2).encode("utf-8")
     encoded = base64.b64encode(content_bytes).decode()
-
     safe_name = name.lower().replace(" ", "_")
     filepath = f"data/{safe_name}.json"
     url = f"https://api.github.com/repos/{GITHUB_REPO}/contents/{filepath}"
@@ -292,7 +307,6 @@ def save_to_github():
         "Accept": "application/vnd.github.v3+json",
     }
 
-    # Obtener SHA si el archivo ya existe
     sha = None
     r = requests.get(url, headers=headers, params={"ref": GITHUB_BRANCH})
     if r.status_code == 200:
@@ -305,9 +319,7 @@ def save_to_github():
     }
     if sha:
         payload["sha"] = sha
-
-    r = requests.put(url, headers=headers, json=payload)
-    # Guardado silencioso — sin notificación al usuario
+    requests.put(url, headers=headers, json=payload)
 
 
 def _pos_label(v):
@@ -315,10 +327,8 @@ def _pos_label(v):
 
 
 def _change_label(c, d):
-    if d > c:
-        return "mejora"
-    if d < c:
-        return "empeora"
+    if d > c: return "mejora"
+    if d < c: return "empeora"
     return "sin_cambio"
 
 
@@ -339,6 +349,10 @@ def change_position(phase_key, mid, delta):
     st.session_state[phase_key] = positions
 
 
+def set_example(text):
+    st.session_state.change_input = text
+
+
 def set_phase(n, do_save=False):
     st.session_state.phase = n
     if do_save:
@@ -346,7 +360,7 @@ def set_phase(n, do_save=False):
 
 
 def reset_all():
-    for key in ["phase", "user_name", "order", "current", "desired"]:
+    for key in ["phase", "user_name", "order", "current", "desired", "change_input"]:
         st.session_state.pop(key, None)
 
 
@@ -359,32 +373,40 @@ POS_CONFIG = {
 }
 
 
+def render_progress():
+    phase = st.session_state.phase
+    labels = [
+        "1️⃣ Importancia",
+        "2️⃣ Situación Actual",
+        "3️⃣ El Cambio",
+        "4️⃣ Situación Deseada",
+    ]
+    cols = st.columns(4)
+    for i, (col, label) in enumerate(zip(cols, labels)):
+        step = i + 1
+        css = "active" if step == phase else "done" if step < phase else ""
+        with col:
+            st.markdown(f'<div class="phase-step {css}">{label}</div>', unsafe_allow_html=True)
+    st.markdown("")
+
 
 def render_card(m, rank=None, position=None, phase_key=None):
     rank_html = (
-        f'<div class="card-rank" style="background:{m["color"]}; color:{m["text_color"]}; opacity:0.75;">'
-        f"#{rank}</div>"
-        if rank is not None
-        else ""
+        f'<div class="card-rank" style="background:{m["color"]}; color:{m["text_color"]}; opacity:0.75;">#{rank}</div>'
+        if rank is not None else ""
     )
     footer_html = ""
     if position is not None:
         cfg = POS_CONFIG[position]
-        footer_html = (
-            f'<div class="card-footer {cfg["class"]}">'
-            f'{cfg["symbol"]} {cfg["label"]}</div>'
-        )
+        footer_html = f'<div class="card-footer {cfg["class"]}">{cfg["symbol"]} {cfg["label"]}</div>'
 
     st.markdown(
-        f"""
-<div class="card-wrapper">
-  {rank_html}
-  <div class="card-header" style="background:{m['color']}; color:{m['text_color']};">
-    {m['name']}
-  </div>
-  <div class="card-body">{m['description']}</div>
-  {footer_html}
-</div>""",
+        f'<div class="card-wrapper">'
+        f'{rank_html}'
+        f'<div class="card-header" style="background:{m["color"]}; color:{m["text_color"]};">{m["name"]}</div>'
+        f'<div class="card-body">{m["description"]}</div>'
+        f'{footer_html}'
+        f'</div>',
         unsafe_allow_html=True,
     )
 
@@ -411,52 +433,44 @@ def render_card(m, rank=None, position=None, phase_key=None):
                       use_container_width=True, help="Impacto negativo")
 
 
-def render_progress():
-    phase = st.session_state.phase
-    labels = [
-        "1️⃣  Ordenar por importancia",
-        "2️⃣  Situación Actual",
-        "3️⃣  Situación Deseada",
-    ]
-    cols = st.columns(3)
-    for i, (col, label) in enumerate(zip(cols, labels)):
-        step = i + 1
-        css = "active" if step == phase else "done" if step < phase else ""
-        with col:
-            st.markdown(f'<div class="phase-step {css}">{label}</div>', unsafe_allow_html=True)
-    st.markdown("")
+def render_cards_row(order, positions=None, phase_key=None, show_rank=False):
+    """Renderiza las 10 tarjetas en columnas con scroll horizontal."""
+    cols = st.columns(len(order))
+    for i, mid in enumerate(order):
+        with cols[i]:
+            pos = positions[mid] if positions else None
+            render_card(
+                MOTIVATOR_MAP[mid],
+                rank=i + 1 if show_rank else None,
+                position=pos,
+                phase_key=phase_key,
+            )
 
 
 # ── Fases ─────────────────────────────────────────────────────────────────────
 
 
 def render_phase0():
-    """Pantalla de bienvenida y captura de nombre."""
     st.markdown(
-        """
-<div class="welcome-box">
-  <div style="font-size:48px; margin-bottom:8px;">🎯</div>
-  <h2 style="margin:0 0 8px 0;">Moving Motivators</h2>
-  <p style="color:#666; margin-bottom:24px;">
-    Descubre qué te motiva, evalúa tu situación actual<br>y visualiza el impacto de un cambio.
-  </p>
-</div>""",
+        '<div class="welcome-box">'
+        '<div style="font-size:48px; margin-bottom:8px;">🎯</div>'
+        '<h2 style="margin:0 0 8px 0;">Moving Motivators</h2>'
+        '<p style="color:#666; margin-bottom:24px;">'
+        'Descubre qué te motiva, evalúa tu situación actual<br>y visualiza el impacto de un cambio.'
+        '</p></div>',
         unsafe_allow_html=True,
     )
-
     _, center, _ = st.columns([1, 2, 1])
     with center:
         name = st.text_input(
             "¿Cuál es tu nombre?",
             value=st.session_state.user_name,
             placeholder="Escribe tu nombre aquí...",
-            label_visibility="visible",
             key="name_input",
-            on_change=lambda: None,   # evita que Enter recargue la página
+            on_change=lambda: None,
         )
         st.markdown("<br>", unsafe_allow_html=True)
-        clicked = st.button("Comenzar →", type="primary", use_container_width=True)
-        if clicked:
+        if st.button("Comenzar →", type="primary", use_container_width=True):
             if name.strip():
                 st.session_state.user_name = name.strip()
                 st.session_state.phase = 1
@@ -471,17 +485,11 @@ def render_phase1():
         "Usa **◀ ▶** para mover cada tarjeta. "
         "El más importante va a la **izquierda**, el menos importante a la **derecha**."
     )
-
-    order = st.session_state.order
-    cols = st.columns(len(order))
-    for i, mid in enumerate(order):
-        with cols[i]:
-            render_card(MOTIVATOR_MAP[mid], rank=i + 1)
-
+    render_cards_row(st.session_state.order, show_rank=True)
     st.markdown("---")
     _, right = st.columns([3, 1])
     with right:
-        st.button("Siguiente: Situación Actual →", type="primary",
+        st.button("Siguiente →", type="primary",
                   on_click=set_phase, args=(2, True), use_container_width=True)
 
 
@@ -489,25 +497,52 @@ def render_phase2():
     st.subheader("Situación Actual")
     st.markdown(
         "¿Cómo impacta tu situación actual a cada motivador? "
-        "**▲ Positivo** — mejora el motivador &nbsp;|&nbsp; "
-        "**● Neutro** — sin efecto &nbsp;|&nbsp; "
-        "**▼ Negativo** — lo perjudica"
+        "**▲ Positivo** — mejora &nbsp;|&nbsp; **● Neutro** — sin efecto &nbsp;|&nbsp; **▼ Negativo** — perjudica"
     )
-
-    order = st.session_state.order
-    current = st.session_state.current
-    cols = st.columns(len(order))
-    for i, mid in enumerate(order):
-        with cols[i]:
-            render_card(MOTIVATOR_MAP[mid], position=current[mid], phase_key="current")
-
+    render_cards_row(st.session_state.order, positions=st.session_state.current, phase_key="current")
     st.markdown("---")
     left, _, right = st.columns([1, 2, 1])
     with left:
         st.button("← Paso 1", on_click=set_phase, args=(1,), use_container_width=True)
     with right:
-        st.button("Siguiente: Situación Deseada →", type="primary",
+        st.button("Siguiente →", type="primary",
                   on_click=set_phase, args=(3, True), use_container_width=True)
+
+
+def render_phase3():
+    """Paso 3: El cambio que la persona está evaluando."""
+    st.subheader("El cambio que estás evaluando")
+    st.markdown(
+        "Antes de ver cómo quedaría tu situación **deseada**, describe el cambio que estás considerando. "
+        "Esto te ayudará a reflexionar sobre su impacto real en cada motivador."
+    )
+
+    # Chips de ejemplos
+    st.markdown("**Ejemplos — clic para usar como punto de partida:**")
+    cols = st.columns(4)
+    for i, example in enumerate(CHANGE_EXAMPLES):
+        with cols[i % 4]:
+            st.button(
+                example, key=f"ex_{i}",
+                on_click=set_example, args=(example,),
+                use_container_width=True,
+            )
+
+    st.markdown("")
+    st.text_area(
+        "¿Qué cambio estás considerando?",
+        placeholder="Ej: Cambiar de empresa, emprender, asumir más responsabilidades...",
+        height=110,
+        key="change_input",
+    )
+
+    st.markdown("---")
+    left, _, right = st.columns([1, 2, 1])
+    with left:
+        st.button("← Paso 2", on_click=set_phase, args=(2,), use_container_width=True)
+    with right:
+        st.button("Siguiente: Situación Deseada →", type="primary",
+                  on_click=set_phase, args=(4, True), use_container_width=True)
 
 
 def build_comparison_chart(order, current, desired):
@@ -517,8 +552,7 @@ def build_comparison_chart(order, current, desired):
     label_map = {1: "▲ Positivo", 0: "● Neutro", -1: "▼ Negativo"}
 
     fig = go.Figure()
-
-    for i, (name, c, d) in enumerate(zip(names, curr_vals, des_vals)):
+    for i, (c, d) in enumerate(zip(curr_vals, des_vals)):
         if d != c:
             color = "rgba(39,174,96,0.15)" if d > c else "rgba(231,76,60,0.15)"
             fig.add_shape(type="rect", x0=i - 0.4, x1=i + 0.4, y0=c, y1=d,
@@ -537,10 +571,8 @@ def build_comparison_chart(order, current, desired):
         hovertemplate="<b>%{x}</b><br>Deseada: %{customdata}<extra></extra>",
         customdata=[label_map[v] for v in des_vals],
     ))
-
     fig.update_layout(
-        yaxis=dict(tickvals=[-1, 0, 1],
-                   ticktext=["▼ Negativo", "● Neutro", "▲ Positivo"],
+        yaxis=dict(tickvals=[-1, 0, 1], ticktext=["▼ Negativo", "● Neutro", "▲ Positivo"],
                    range=[-1.6, 1.6], gridcolor="#ececec"),
         xaxis=dict(title="Motivadores (de más → menos importante)", gridcolor="#ececec"),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
@@ -551,35 +583,40 @@ def build_comparison_chart(order, current, desired):
     return fig
 
 
-def render_phase3():
+def render_phase4():
     st.subheader("Situación Deseada")
+
+    # Muestra el cambio que describió
+    change_desc = st.session_state.get("change_input", "").strip()
+    if change_desc:
+        st.markdown(
+            f'<div class="change-box">🔄 <strong>Cambio evaluado:</strong> {change_desc}</div>',
+            unsafe_allow_html=True,
+        )
+
     st.markdown(
-        "¿Cómo impactaría tu **situación deseada** a cada motivador? "
-        "Compara con la situación actual para ver qué mejora o empeora."
+        "¿Cómo impactaría **este cambio** a cada motivador? "
+        "Compara luego con la situación actual."
     )
 
     order = st.session_state.order
     current = st.session_state.current
     desired = st.session_state.desired
 
-    cols = st.columns(len(order))
-    for i, mid in enumerate(order):
-        with cols[i]:
-            render_card(MOTIVATOR_MAP[mid], position=desired[mid], phase_key="desired")
+    render_cards_row(order, positions=desired, phase_key="desired")
 
     st.markdown("---")
     st.subheader("Comparación: Actual vs. Deseada")
     st.plotly_chart(build_comparison_chart(order, current, desired), use_container_width=True)
 
     st.markdown(
-        """
-<div class="legend-box">
-  <div class="legend-item"><span class="dot" style="background:#27AE60"></span> Mejora</div>
-  <div class="legend-item"><span class="dot" style="background:#E74C3C"></span> Empeora</div>
-  <div class="legend-item"><span class="dot" style="background:#7F8C8D"></span> Sin cambio</div>
-  <div class="legend-item" style="color:#3498DB; font-weight:700;">─── Situación Actual</div>
-  <div class="legend-item" style="color:#E67E22; font-weight:700;">- - Situación Deseada</div>
-</div>""",
+        '<div class="legend-box">'
+        '<div class="legend-item"><span class="dot" style="background:#27AE60"></span> Mejora</div>'
+        '<div class="legend-item"><span class="dot" style="background:#E74C3C"></span> Empeora</div>'
+        '<div class="legend-item"><span class="dot" style="background:#7F8C8D"></span> Sin cambio</div>'
+        '<div class="legend-item" style="color:#3498DB; font-weight:700;">─── Situación Actual</div>'
+        '<div class="legend-item" style="color:#E67E22; font-weight:700;">- - Situación Deseada</div>'
+        '</div>',
         unsafe_allow_html=True,
     )
 
@@ -612,10 +649,10 @@ def render_phase3():
     st.markdown("---")
     left, _, right = st.columns([1, 2, 1])
     with left:
-        st.button("← Paso 2", on_click=set_phase, args=(2,), use_container_width=True)
+        st.button("← Paso 3", on_click=set_phase, args=(3,), use_container_width=True)
     with right:
         st.button("Guardar →", type="primary",
-                  on_click=set_phase, args=(3, True), use_container_width=True)
+                  on_click=set_phase, args=(4, True), use_container_width=True)
 
     _, col_reset, _ = st.columns([2, 1, 2])
     with col_reset:
@@ -628,8 +665,7 @@ def render_phase3():
 def render_sidebar():
     with st.sidebar:
         if st.session_state.phase > 0:
-            if st.button("🏠 Volver al inicio", use_container_width=True, on_click=reset_all):
-                pass
+            st.button("🏠 Volver al inicio", use_container_width=True, on_click=reset_all)
             st.markdown("")
         st.markdown("## 🎯 Moving Motivators")
         if st.session_state.user_name:
@@ -641,8 +677,9 @@ def render_sidebar():
         st.markdown("### Cómo usar")
         st.markdown(
             "1. **Paso 1**: Ordena de más a menos importante\n"
-            "2. **Paso 2**: Evalúa impacto en situación actual\n"
-            "3. **Paso 3**: Evalúa situación deseada y compara"
+            "2. **Paso 2**: Evalúa tu situación actual\n"
+            "3. **Paso 3**: Describe el cambio que evalúas\n"
+            "4. **Paso 4**: Evalúa la situación deseada y compara"
         )
         st.markdown("---")
         st.markdown("### Los 10 motivadores")
@@ -653,35 +690,43 @@ def render_sidebar():
                 f'padding:2px 8px; border-radius:12px; font-weight:700; font-size:12px;">'
                 f'{m["letter"]}</span>'
                 f'<span style="font-size:13px;"><strong>{m["name"]}</strong></span>'
-                f"</div>"
+                f'</div>'
                 f'<div style="font-size:11px; color:#666; margin-left:36px; margin-bottom:4px;">'
-                f"{m['description']}</div>",
+                f'{m["description"]}</div>',
                 unsafe_allow_html=True,
             )
         st.markdown("---")
         token_ok = bool(get_github_token())
-        status_icon = "🟢" if token_ok else "🔴"
-        st.markdown(f"{status_icon} GitHub: {'conectado' if token_ok else 'sin token'}")
+        st.markdown(f"{'🟢' if token_ok else '🔴'} GitHub: {'conectado' if token_ok else 'sin token'}")
 
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 init_state()
+
+# Detectar ancho de pantalla (se actualiza en cada sesión nueva)
+w = get_screen_width()
+if w is not None:
+    st.session_state.screen_width = w
+
 render_sidebar()
 
-if st.session_state.phase > 0:
+phase = st.session_state.phase
+
+if phase > 0:
     st.markdown("# 🎯 Moving Motivators")
     st.markdown("Descubre qué te motiva, evalúa tu situación actual y visualiza el impacto de un cambio.")
     st.markdown("")
     render_progress()
     st.markdown("---")
 
-phase = st.session_state.phase
 if phase == 0:
     render_phase0()
 elif phase == 1:
     render_phase1()
 elif phase == 2:
     render_phase2()
-else:
+elif phase == 3:
     render_phase3()
+else:
+    render_phase4()
