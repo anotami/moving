@@ -1,6 +1,6 @@
 {
   "nombre": "gabriel",
-  "fecha_actualizacion": "2026-03-27T22:06:04.721664",
+  "fecha_actualizacion": "2026-03-27T22:06:12.726017",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -59,8 +59,8 @@
       "etiqueta": "neutro"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
       "valor": 0,
@@ -71,12 +71,12 @@
       "etiqueta": "neutro"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "relatedness": {
       "valor": 0,
@@ -87,12 +87,12 @@
       "etiqueta": "neutro"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     }
   },
   "situacion_deseada": {
@@ -144,9 +144,9 @@
       "cambio": "sin_cambio"
     },
     "honor": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "acceptance": {
       "actual": "neutro",
@@ -159,14 +159,14 @@
       "cambio": "sin_cambio"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     },
     "relatedness": {
       "actual": "neutro",
@@ -179,14 +179,14 @@
       "cambio": "sin_cambio"
     },
     "goal": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "status": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     }
   }
 }
