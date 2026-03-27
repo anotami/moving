@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T22:21:18.329637",
+  "fecha_actualizacion": "2026-03-27T22:21:23.352633",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -67,12 +67,12 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
       "valor": 0,
@@ -154,14 +154,14 @@
       "cambio": "sin_cambio"
     },
     "mastery": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
       "actual": "neutro",
