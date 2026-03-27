@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T22:21:23.352633",
+  "fecha_actualizacion": "2026-03-27T22:23:24.253002",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -14,18 +14,18 @@
     },
     {
       "posicion": 3,
-      "id": "acceptance",
-      "nombre": "Aceptación"
-    },
-    {
-      "posicion": 4,
       "id": "mastery",
       "nombre": "Maestría"
     },
     {
-      "posicion": 5,
+      "posicion": 4,
       "id": "power",
       "nombre": "Poder"
+    },
+    {
+      "posicion": 5,
+      "id": "acceptance",
+      "nombre": "Aceptación"
     },
     {
       "posicion": 6,
@@ -34,18 +34,18 @@
     },
     {
       "posicion": 7,
+      "id": "relatedness",
+      "nombre": "Relación"
+    },
+    {
+      "posicion": 8,
       "id": "order",
       "nombre": "Orden"
     },
     {
-      "posicion": 8,
+      "posicion": 9,
       "id": "goal",
       "nombre": "Meta"
-    },
-    {
-      "posicion": 9,
-      "id": "relatedness",
-      "nombre": "Relación"
     },
     {
       "posicion": 10,
@@ -53,6 +53,7 @@
       "nombre": "Estatus"
     }
   ],
+  "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
       "valor": 0,
@@ -67,12 +68,12 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": -1,
-      "etiqueta": "negativo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "power": {
-      "valor": 1,
-      "etiqueta": "positivo"
+      "valor": 0,
+      "etiqueta": "neutro"
     },
     "freedom": {
       "valor": 0,
@@ -148,22 +149,27 @@
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
+    "mastery": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "power": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
     "acceptance": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "mastery": {
-      "actual": "negativo",
-      "deseada": "neutro",
-      "cambio": "mejora"
-    },
-    "power": {
-      "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
-    },
     "freedom": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "relatedness": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
@@ -174,11 +180,6 @@
       "cambio": "sin_cambio"
     },
     "goal": {
-      "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
-    },
-    "relatedness": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
