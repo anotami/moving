@@ -628,6 +628,13 @@ def render_sidebar():
             "Herramienta basada en el modelo **CHAMPFROGS** de [Management 3.0](https://management30.com/)"
         )
         st.markdown("---")
+        st.markdown("### Cómo usar")
+        st.markdown(
+            "1. **Paso 1**: Ordena de más a menos importante\n"
+            "2. **Paso 2**: Evalúa impacto en situación actual\n"
+            "3. **Paso 3**: Evalúa situación deseada y compara"
+        )
+        st.markdown("---")
         st.markdown("### Los 10 motivadores")
         for m in MOTIVATORS:
             st.markdown(
@@ -641,13 +648,6 @@ def render_sidebar():
                 f"{m['description']}</div>",
                 unsafe_allow_html=True,
             )
-        st.markdown("---")
-        st.markdown("### Cómo usar")
-        st.markdown(
-            "1. **Paso 1**: Ordena de más a menos importante\n"
-            "2. **Paso 2**: Evalúa impacto en situación actual\n"
-            "3. **Paso 3**: Evalúa situación deseada y compara"
-        )
         st.markdown("---")
         token_ok = bool(get_github_token())
         status_icon = "🟢" if token_ok else "🔴"
