@@ -222,18 +222,7 @@ st.markdown(
         box-shadow: 0 4px 24px rgba(0,0,0,0.10);
         text-align: center;
     }
-    .save-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 12px;
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-    }
-    .save-ok  { background:#e8f5e9; color:#2e7d32; }
-    .save-err { background:#fdecea; color:#c62828; }
-    .save-na  { background:#f5f5f5; color:#888; }
+
 </style>
 """,
     unsafe_allow_html=True,
@@ -249,8 +238,6 @@ def init_state():
         "order": [m["id"] for m in MOTIVATORS],
         "current": {m["id"]: 0 for m in MOTIVATORS},
         "desired": {m["id"]: 0 for m in MOTIVATORS},
-        "save_status": None,   # None | "ok" | "error" | "no_token"
-        "save_message": "",
     }
     for k, v in defaults.items():
         if k not in st.session_state:
@@ -264,8 +251,6 @@ def save_to_github():
     """Serializa el estado actual y lo guarda/actualiza en GitHub."""
     token = get_github_token()
     if not token:
-        st.session_state.save_status = "no_token"
-        st.session_state.save_message = "Sin token GitHub (configura GITHUB_TOKEN en secrets)"
         return
 
     name = st.session_state.user_name
@@ -322,12 +307,7 @@ def save_to_github():
         payload["sha"] = sha
 
     r = requests.put(url, headers=headers, json=payload)
-    if r.status_code in (200, 201):
-        st.session_state.save_status = "ok"
-        st.session_state.save_message = f"Guardado en GitHub → data/{safe_name}.json"
-    else:
-        st.session_state.save_status = "error"
-        st.session_state.save_message = f"Error GitHub {r.status_code}: {r.json().get('message', '')}"
+    # Guardado silencioso — sin notificación al usuario
 
 
 def _pos_label(v):
@@ -366,7 +346,7 @@ def set_phase(n, do_save=False):
 
 
 def reset_all():
-    for key in ["phase", "user_name", "order", "current", "desired", "save_status", "save_message"]:
+    for key in ["phase", "user_name", "order", "current", "desired"]:
         st.session_state.pop(key, None)
 
 
@@ -378,24 +358,6 @@ POS_CONFIG = {
     -1: {"label": "Negativo", "symbol": "▼", "class": "pos-negative"},
 }
 
-
-def render_save_badge():
-    status = st.session_state.save_status
-    if status == "ok":
-        st.markdown(
-            f'<div class="save-badge save-ok">✅ {st.session_state.save_message}</div>',
-            unsafe_allow_html=True,
-        )
-    elif status == "error":
-        st.markdown(
-            f'<div class="save-badge save-err">❌ {st.session_state.save_message}</div>',
-            unsafe_allow_html=True,
-        )
-    elif status == "no_token":
-        st.markdown(
-            f'<div class="save-badge save-na">⚠️ {st.session_state.save_message}</div>',
-            unsafe_allow_html=True,
-        )
 
 
 def render_card(m, rank=None, position=None, phase_key=None):
@@ -515,7 +477,6 @@ def render_phase1():
     with right:
         st.button("Siguiente: Situación Actual →", type="primary",
                   on_click=set_phase, args=(2, True), use_container_width=True)
-    render_save_badge()
 
 
 def render_phase2():
@@ -541,7 +502,6 @@ def render_phase2():
     with right:
         st.button("Siguiente: Situación Deseada →", type="primary",
                   on_click=set_phase, args=(3, True), use_container_width=True)
-    render_save_badge()
 
 
 def build_comparison_chart(order, current, desired):
@@ -648,10 +608,8 @@ def render_phase3():
     with left:
         st.button("← Paso 2", on_click=set_phase, args=(2,), use_container_width=True)
     with right:
-        st.button("💾 Guardar y finalizar", type="primary",
+        st.button("Guardar →", type="primary",
                   on_click=set_phase, args=(3, True), use_container_width=True)
-
-    render_save_badge()
 
     _, col_reset, _ = st.columns([2, 1, 2])
     with col_reset:
