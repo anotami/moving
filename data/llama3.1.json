@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T22:23:30.595417",
+  "fecha_actualizacion": "2026-03-27T22:23:47.900678",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Estatus"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Cambiar de industria",
   "situacion_actual": {
     "curiosity": {
       "valor": 0,
