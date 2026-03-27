@@ -1,16 +1,16 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T21:39:53.212478",
+  "fecha_actualizacion": "2026-03-27T21:44:26.378850",
   "orden_importancia": [
     {
       "posicion": 1,
-      "id": "honor",
-      "nombre": "Honor"
+      "id": "curiosity",
+      "nombre": "Curiosidad"
     },
     {
       "posicion": 2,
-      "id": "curiosity",
-      "nombre": "Curiosidad"
+      "id": "honor",
+      "nombre": "Honor"
     },
     {
       "posicion": 3,
@@ -19,13 +19,13 @@
     },
     {
       "posicion": 4,
-      "id": "power",
-      "nombre": "Poder"
+      "id": "mastery",
+      "nombre": "Maestría"
     },
     {
       "posicion": 5,
-      "id": "mastery",
-      "nombre": "Maestría"
+      "id": "power",
+      "nombre": "Poder"
     },
     {
       "posicion": 6,
@@ -44,13 +44,13 @@
     },
     {
       "posicion": 9,
-      "id": "status",
-      "nombre": "Estatus"
+      "id": "goal",
+      "nombre": "Meta"
     },
     {
       "posicion": 10,
-      "id": "goal",
-      "nombre": "Meta"
+      "id": "status",
+      "nombre": "Estatus"
     }
   ],
   "situacion_actual": {
@@ -138,12 +138,12 @@
     }
   },
   "comparacion": {
-    "honor": {
+    "curiosity": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "curiosity": {
+    "honor": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
@@ -153,12 +153,12 @@
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "power": {
+    "mastery": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "mastery": {
+    "power": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
@@ -178,12 +178,12 @@
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "status": {
+    "goal": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "goal": {
+    "status": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
