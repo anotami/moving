@@ -1,6 +1,6 @@
 {
   "nombre": "llama3.1",
-  "fecha_actualizacion": "2026-03-27T22:23:24.253002",
+  "fecha_actualizacion": "2026-03-27T22:23:30.595417",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -72,8 +72,8 @@
       "etiqueta": "neutro"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
       "valor": 0,
@@ -84,8 +84,8 @@
       "etiqueta": "neutro"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "goal": {
       "valor": 0,
@@ -155,9 +155,9 @@
       "cambio": "sin_cambio"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "acceptance": {
       "actual": "neutro",
@@ -175,9 +175,9 @@
       "cambio": "sin_cambio"
     },
     "order": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "goal": {
       "actual": "neutro",
