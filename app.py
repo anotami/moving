@@ -450,13 +450,19 @@ def render_phase0():
             "¿Cuál es tu nombre?",
             value=st.session_state.user_name,
             placeholder="Escribe tu nombre aquí...",
+            label_visibility="visible",
+            key="name_input",
+            on_change=lambda: None,   # evita que Enter recargue la página
         )
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("Comenzar →", type="primary", use_container_width=True,
-                     disabled=not name.strip()):
-            st.session_state.user_name = name.strip()
-            st.session_state.phase = 1
-            st.rerun()
+        clicked = st.button("Comenzar →", type="primary", use_container_width=True)
+        if clicked:
+            if name.strip():
+                st.session_state.user_name = name.strip()
+                st.session_state.phase = 1
+                st.rerun()
+            else:
+                st.warning("Por favor ingresa tu nombre para continuar.")
 
 
 def render_phase1():
@@ -621,6 +627,10 @@ def render_phase3():
 
 def render_sidebar():
     with st.sidebar:
+        if st.session_state.phase > 0:
+            if st.button("🏠 Volver al inicio", use_container_width=True, on_click=reset_all):
+                pass
+            st.markdown("")
         st.markdown("## 🎯 Moving Motivators")
         if st.session_state.user_name:
             st.markdown(f"👤 **{st.session_state.user_name}**")
