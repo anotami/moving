@@ -1,0 +1,193 @@
+{
+  "nombre": "Aida",
+  "fecha_actualizacion": "2026-03-29T02:32:10.516711",
+  "orden_importancia": [
+    {
+      "posicion": 1,
+      "id": "curiosity",
+      "nombre": "Curiosidad"
+    },
+    {
+      "posicion": 2,
+      "id": "honor",
+      "nombre": "Honor"
+    },
+    {
+      "posicion": 3,
+      "id": "acceptance",
+      "nombre": "Aceptación"
+    },
+    {
+      "posicion": 4,
+      "id": "mastery",
+      "nombre": "Maestría"
+    },
+    {
+      "posicion": 5,
+      "id": "power",
+      "nombre": "Poder"
+    },
+    {
+      "posicion": 6,
+      "id": "freedom",
+      "nombre": "Libertad"
+    },
+    {
+      "posicion": 7,
+      "id": "relatedness",
+      "nombre": "Relación"
+    },
+    {
+      "posicion": 8,
+      "id": "order",
+      "nombre": "Orden"
+    },
+    {
+      "posicion": 9,
+      "id": "goal",
+      "nombre": "Meta"
+    },
+    {
+      "posicion": 10,
+      "id": "status",
+      "nombre": "Estatus"
+    }
+  ],
+  "cambio_evaluado": "",
+  "situacion_actual": {
+    "curiosity": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "honor": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "acceptance": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "mastery": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "power": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "freedom": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "relatedness": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "order": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "goal": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "status": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    }
+  },
+  "situacion_deseada": {
+    "curiosity": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "honor": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "acceptance": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "mastery": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "power": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "freedom": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "relatedness": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "order": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "goal": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    },
+    "status": {
+      "valor": 0,
+      "etiqueta": "neutro"
+    }
+  },
+  "comparacion": {
+    "curiosity": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "honor": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "acceptance": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "mastery": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "power": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "freedom": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "relatedness": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "order": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "goal": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "status": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    }
+  }
+}
