@@ -1,6 +1,6 @@
 {
   "nombre": "Beatriz",
-  "fecha_actualizacion": "2026-04-07T23:03:14.412401",
+  "fecha_actualizacion": "2026-04-07T23:05:25.563139",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Estatus"
     }
   ],
-  "cambio_evaluado": "Iniciar un posgrado o certificación : actualmente estoy estudiando y es lo que me emociona a seguir avanzando en lo profesional y en lo personal",
+  "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
