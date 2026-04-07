@@ -1,6 +1,6 @@
 {
   "nombre": "Gianni",
-  "fecha_actualizacion": "2026-04-07T22:59:09.506028",
+  "fecha_actualizacion": "2026-04-07T23:01:39.079642",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -98,8 +98,8 @@
   },
   "situacion_deseada": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
       "valor": 0,
@@ -110,8 +110,8 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
       "valor": 0,
@@ -146,13 +146,13 @@
     },
     "mastery": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "curiosity": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "acceptance": {
       "actual": "neutro",
