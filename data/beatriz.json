@@ -1,6 +1,6 @@
 {
   "nombre": "Beatriz",
-  "fecha_actualizacion": "2026-04-07T22:59:35.540453",
+  "fecha_actualizacion": "2026-04-07T23:01:14.191882",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -56,44 +56,44 @@
   "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     }
   },
   "situacion_deseada": {
@@ -140,54 +140,54 @@
   },
   "comparacion": {
     "honor": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "goal": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "curiosity": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "order": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "mastery": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "acceptance": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "relatedness": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "status": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     }
   }
 }
