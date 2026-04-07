@@ -1,6 +1,6 @@
 {
   "nombre": "MARIELA PERALTA",
-  "fecha_actualizacion": "2026-04-07T22:55:19.148855",
+  "fecha_actualizacion": "2026-04-07T22:57:20.664738",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -56,8 +56,8 @@
   "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
       "valor": 0,
@@ -72,20 +72,20 @@
       "etiqueta": "neutro"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "goal": {
       "valor": 0,
@@ -140,9 +140,9 @@
   },
   "comparacion": {
     "curiosity": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "acceptance": {
       "actual": "neutro",
@@ -150,19 +150,19 @@
       "cambio": "sin_cambio"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "relatedness": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "status": {
       "actual": "neutro",
@@ -170,9 +170,9 @@
       "cambio": "sin_cambio"
     },
     "order": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     },
     "honor": {
       "actual": "neutro",
