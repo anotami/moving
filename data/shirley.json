@@ -1,6 +1,6 @@
 {
   "nombre": "Shirley",
-  "fecha_actualizacion": "2026-04-07T23:05:16.677626",
+  "fecha_actualizacion": "2026-04-07T23:06:51.941775",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Poder"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Iniciar un posgrado o certificación",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
