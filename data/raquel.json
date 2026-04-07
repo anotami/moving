@@ -1,6 +1,6 @@
 {
   "nombre": "Raquel",
-  "fecha_actualizacion": "2026-04-07T23:00:12.242937",
+  "fecha_actualizacion": "2026-04-07T23:01:47.946049",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Meta"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Emprender mi propio negocio",
   "situacion_actual": {
     "curiosity": {
       "valor": 0,
