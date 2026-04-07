@@ -1,6 +1,6 @@
 {
   "nombre": "Shirley",
-  "fecha_actualizacion": "2026-04-07T23:00:51.072340",
+  "fecha_actualizacion": "2026-04-07T23:01:46.002893",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -19,8 +19,8 @@
     },
     {
       "posicion": 4,
-      "id": "acceptance",
-      "nombre": "Aceptación"
+      "id": "goal",
+      "nombre": "Meta"
     },
     {
       "posicion": 5,
@@ -29,18 +29,18 @@
     },
     {
       "posicion": 6,
-      "id": "goal",
-      "nombre": "Meta"
-    },
-    {
-      "posicion": 7,
       "id": "relatedness",
       "nombre": "Relación"
     },
     {
-      "posicion": 8,
+      "posicion": 7,
       "id": "order",
       "nombre": "Orden"
+    },
+    {
+      "posicion": 8,
+      "id": "acceptance",
+      "nombre": "Aceptación"
     },
     {
       "posicion": 9,
@@ -154,17 +154,12 @@
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
-    "acceptance": {
+    "goal": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
     },
     "mastery": {
-      "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
-    },
-    "goal": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
@@ -175,6 +170,11 @@
       "cambio": "sin_cambio"
     },
     "order": {
+      "actual": "neutro",
+      "deseada": "neutro",
+      "cambio": "sin_cambio"
+    },
+    "acceptance": {
       "actual": "neutro",
       "deseada": "neutro",
       "cambio": "sin_cambio"
