@@ -1,6 +1,6 @@
 {
   "nombre": "Shirley",
-  "fecha_actualizacion": "2026-04-07T23:06:51.941775",
+  "fecha_actualizacion": "2026-04-07T23:09:47.469583",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Poder"
     }
   ],
-  "cambio_evaluado": "Iniciar un posgrado o certificación",
+  "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
@@ -98,8 +98,8 @@
   },
   "situacion_deseada": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
       "valor": 0,
@@ -110,44 +110,44 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     }
   },
   "comparacion": {
     "freedom": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "curiosity": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "honor": {
       "actual": "neutro",
@@ -156,18 +156,18 @@
     },
     "goal": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "mastery": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "relatedness": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "order": {
       "actual": "neutro",
@@ -181,13 +181,13 @@
     },
     "status": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "power": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     }
   }
 }
