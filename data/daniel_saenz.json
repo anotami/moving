@@ -1,6 +1,6 @@
 {
   "nombre": "Daniel Saenz",
-  "fecha_actualizacion": "2026-04-07T23:00:23.153045",
+  "fecha_actualizacion": "2026-04-07T23:02:11.804256",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Meta"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Trabajar de forma remota",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
