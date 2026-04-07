@@ -1,6 +1,6 @@
 {
   "nombre": "Shirley",
-  "fecha_actualizacion": "2026-04-07T23:09:47.469583",
+  "fecha_actualizacion": "2026-04-07T23:10:31.172029",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -102,8 +102,8 @@
       "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
       "valor": 0,
@@ -151,8 +151,8 @@
     },
     "honor": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "goal": {
       "actual": "neutro",
