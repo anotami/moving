@@ -1,6 +1,6 @@
 {
   "nombre": "MARIELA PERALTA",
-  "fecha_actualizacion": "2026-04-07T22:59:20.187783",
+  "fecha_actualizacion": "2026-04-07T23:00:41.107469",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Maestría"
     }
   ],
-  "cambio_evaluado": "Asumir un rol de liderazgo",
+  "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
@@ -98,96 +98,96 @@
   },
   "situacion_deseada": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     }
   },
   "comparacion": {
     "curiosity": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "acceptance": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "power": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "relatedness": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "freedom": {
       "actual": "positivo",
-      "deseada": "neutro",
+      "deseada": "negativo",
       "cambio": "empeora"
     },
     "status": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "order": {
       "actual": "negativo",
-      "deseada": "neutro",
-      "cambio": "mejora"
+      "deseada": "negativo",
+      "cambio": "sin_cambio"
     },
     "honor": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "positivo",
+      "cambio": "mejora"
     },
     "goal": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "negativo",
+      "cambio": "empeora"
     },
     "mastery": {
       "actual": "neutro",
-      "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "deseada": "negativo",
+      "cambio": "empeora"
     }
   }
 }
