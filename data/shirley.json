@@ -1,6 +1,6 @@
 {
   "nombre": "Shirley",
-  "fecha_actualizacion": "2026-04-07T23:01:46.002893",
+  "fecha_actualizacion": "2026-04-07T23:05:16.677626",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -56,8 +56,8 @@
   "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
       "valor": 0,
@@ -68,16 +68,16 @@
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
       "valor": 0,
@@ -140,14 +140,14 @@
   },
   "comparacion": {
     "freedom": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "curiosity": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "honor": {
       "actual": "neutro",
@@ -160,9 +160,9 @@
       "cambio": "sin_cambio"
     },
     "mastery": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "relatedness": {
       "actual": "neutro",
@@ -185,9 +185,9 @@
       "cambio": "sin_cambio"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     }
   }
 }
