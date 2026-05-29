@@ -1,6 +1,6 @@
 {
   "nombre": "Diego",
-  "fecha_actualizacion": "2026-05-29T14:05:05.515304",
+  "fecha_actualizacion": "2026-05-29T14:13:21.430719",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Aceptación"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Asumir un rol de liderazgo",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
