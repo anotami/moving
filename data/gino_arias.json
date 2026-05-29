@@ -1,6 +1,6 @@
 {
   "nombre": "Gino Arias",
-  "fecha_actualizacion": "2026-05-29T13:57:23.114864",
+  "fecha_actualizacion": "2026-05-29T14:05:17.400943",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -56,40 +56,40 @@
   "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
       "valor": 0,
@@ -140,44 +140,44 @@
   },
   "comparacion": {
     "goal": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "honor": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "curiosity": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "mastery": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "order": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "power": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     },
     "relatedness": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "status": {
       "actual": "neutro",
