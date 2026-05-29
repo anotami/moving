@@ -1,6 +1,6 @@
 {
   "nombre": "Gino Arias",
-  "fecha_actualizacion": "2026-05-29T14:05:17.400943",
+  "fecha_actualizacion": "2026-05-29T14:13:25.632098",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Aceptación"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Iniciar un posgrado o certificación (senior)",
   "situacion_actual": {
     "curiosity": {
       "valor": 1,
