@@ -1,6 +1,6 @@
 {
   "nombre": "Diego",
-  "fecha_actualizacion": "2026-05-29T13:33:41.187215",
+  "fecha_actualizacion": "2026-05-29T13:34:13.906658",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -53,7 +53,7 @@
       "nombre": "Estatus"
     }
   ],
-  "cambio_evaluado": "",
+  "cambio_evaluado": "Asumir un rol de liderazgo",
   "situacion_actual": {
     "curiosity": {
       "valor": 0,
