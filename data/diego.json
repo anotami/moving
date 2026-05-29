@@ -1,6 +1,6 @@
 {
   "nombre": "Diego",
-  "fecha_actualizacion": "2026-05-29T14:13:21.430719",
+  "fecha_actualizacion": "2026-05-29T14:17:24.892680",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -98,96 +98,96 @@
   },
   "situacion_deseada": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "mastery": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "power": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "freedom": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     }
   },
   "comparacion": {
     "honor": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "mastery": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "curiosity": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "goal": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "relatedness": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "order": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "freedom": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "power": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "status": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     },
     "acceptance": {
       "actual": "positivo",
-      "deseada": "neutro",
-      "cambio": "empeora"
+      "deseada": "positivo",
+      "cambio": "sin_cambio"
     }
   }
 }
