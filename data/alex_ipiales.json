@@ -1,6 +1,6 @@
 {
   "nombre": "Alex Ipiales",
-  "fecha_actualizacion": "2026-05-29T13:58:03.857589",
+  "fecha_actualizacion": "2026-05-29T14:05:09.252788",
   "orden_importancia": [
     {
       "posicion": 1,
@@ -56,16 +56,16 @@
   "cambio_evaluado": "",
   "situacion_actual": {
     "curiosity": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "honor": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "acceptance": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "mastery": {
       "valor": 0,
@@ -80,20 +80,20 @@
       "etiqueta": "neutro"
     },
     "relatedness": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "order": {
       "valor": 0,
       "etiqueta": "neutro"
     },
     "goal": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": 1,
+      "etiqueta": "positivo"
     },
     "status": {
-      "valor": 0,
-      "etiqueta": "neutro"
+      "valor": -1,
+      "etiqueta": "negativo"
     }
   },
   "situacion_deseada": {
@@ -140,24 +140,24 @@
   },
   "comparacion": {
     "goal": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "honor": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "curiosity": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "relatedness": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "freedom": {
       "actual": "neutro",
@@ -165,14 +165,14 @@
       "cambio": "sin_cambio"
     },
     "acceptance": {
-      "actual": "neutro",
+      "actual": "positivo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "empeora"
     },
     "status": {
-      "actual": "neutro",
+      "actual": "negativo",
       "deseada": "neutro",
-      "cambio": "sin_cambio"
+      "cambio": "mejora"
     },
     "mastery": {
       "actual": "neutro",
